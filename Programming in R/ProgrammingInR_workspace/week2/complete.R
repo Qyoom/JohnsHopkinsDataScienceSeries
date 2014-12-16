@@ -15,20 +15,12 @@ complete <- function(directory, id = 1:332) {
     
     ## -------------------------------------------------------- ##
     
+    source("readFile.R")
+    
     aggregate <- matrix(, nrow = 0, ncol = 2, dimnames=list(NULL, c("id", "nobs")))
     
     for(i in seq_along(id)) { 
-        fileName <- if(id[i] < 10) {
-            paste("00", id[i], ".csv", sep="")
-        } else if(id[i] < 100) {
-            paste("0", id[i], ".csv", sep="")
-        } else {
-            paste(id[i], ".csv", sep="")
-        }
-        
-        filePath <- paste(directory, "/", fileName, sep="")
-        file <- read.csv(filePath, header=TRUE)
-        
+        file <- readFile(directory, id[i])
         isNotNA <- complete.cases(file)
         notNA <- file[isNotNA,]
         aggregate <- rbind(aggregate, c(id[i], nrow(notNA)))

@@ -14,31 +14,17 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
 
 	##-------------------------------------------------------##
 
-	aggregatedData <- numeric()
+    source("readFile.R")
+    
+    aggregate <- numeric()
 
 	for(i in seq_along(id)) { 
-		fileName <- if(id[i] < 10) {
-			paste("00", id[i], ".csv", sep="")
-		} else if(id[i] < 100) {
-			paste("0", id[i], ".csv", sep="")
-		} else {
-			paste(id[i], ".csv", sep="")
-		}
-
-		filePath <- paste(directory, "/", fileName, sep="")
-
-		file <- read.csv(filePath, header=TRUE)
-
+	    file <- readFile(directory, id[i])
 		isNotNA <- !is.na(file[,pollutant])
 		notNA <- file[isNotNA, pollutant]
-
-		##print(paste("notNA length: ", length(notNA)))
-
-		aggregatedData <- c(aggregatedData, notNA)
+		aggregate <- c(aggregate, notNA)
 	}
-	##print(paste("aggregatedData: ", length(aggregatedData)))
-	aggregateMean <- mean(aggregatedData)
-	##print(paste("aggregateMean: ", aggregateMean))
-	format(round(aggregateMean, 3), nsmall = 3)
+	aggregateMean <- mean(aggregate)
+	round(aggregateMean, 3)
 }
 
