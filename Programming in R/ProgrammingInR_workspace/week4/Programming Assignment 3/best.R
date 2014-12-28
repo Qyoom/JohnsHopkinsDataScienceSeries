@@ -21,7 +21,12 @@ best <- function(state, outcome) {
                   paste(outcomeStem, "Pneumonia", sep=""))
     names(colNames) <- outcomeArgs       
     data <- dataTable[dataTable$State==state, c("Hospital.Name", colNames[outcome])]
+    dataNotNA <- data[data[colNames[outcome]] != "Not Available", c("Hospital.Name", colNames[outcome])]
     
     ## Return hospital name in that state with lowest 30-day death rate
+    minOutcome <- min(as.numeric(dataNotNA[,2]))
+    bestHospital <- dataNotNA[dataNotNA[,2]==minOutcome,]
+    
+    
     
 }
