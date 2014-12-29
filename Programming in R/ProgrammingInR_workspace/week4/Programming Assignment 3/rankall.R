@@ -34,7 +34,7 @@ rankall <- function(outcome, num = "best") {
         ## Determine and validate num argument
         # Select hospital by rank
         if(class(num) == "numeric") {
-            if(length(orderedByOutcome) <= num && nrow(orderedByOutcome) > 0) {
+            if(nrow(orderedByOutcome) <= num && nrow(orderedByOutcome) > 0) {
                 targetHospital <- orderedByOutcome[num, 1]
             }
         }
